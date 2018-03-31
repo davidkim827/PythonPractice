@@ -1,0 +1,5 @@
+2018-03-30 17:22:20,751 [MainThread  ] [INFO    ]  Inside placeOnShelf function
+2018-03-30 17:22:20,753 [MainThread  ] [INFO    ]  Placed on Shelf with this text file name: <class 'shelve.DbfilenameShelf'>
+2018-03-30 17:22:20,753 [MainThread  ] [INFO    ]  Shelf contains these keys: ['setOne']
+2018-03-30 17:22:20,761 [MainThread  ] [INFO    ]  Executing placeOnShelf function on first set of random strings
+2018-03-30 17:22:20,761 [MainThread  ] [INFO    ]  Program Terminated
