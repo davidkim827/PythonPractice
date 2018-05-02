@@ -11,7 +11,6 @@ logging.basicConfig(level = logging.DEBUG, format="%(asctime)s [%(threadName)-12
         ])
 
 class WPM(object):
-    
     def randomString():
         """ returns a string that correlates to a random number that is a key for the dictionary inside the shelf"""
         r = random.randint(1, 10)
@@ -35,6 +34,24 @@ class WPM(object):
             return 's9'
         elif r == 10:
             return '10'
+        
+    def countWords(string):
+        """counts the number of words so that it can be calculated later as WPM"""
+        countWords = 0
+        for a in string.split():
+            countWords += 1
+        return countWords
+    
+    def WPMcalculator(wordcount, time):
+        return wordcount / (time/60)
+    
+    def mistakes(textString, userString):
+        """Compares the user input to what the string was actually supposed to be, counts the number of mistakes user made, and returns the number"""
+        a = list(textString)
+        b = list(userString)
+        numCharOriginalStr = len(a) - 1 #for the extra space at the end of the original string 
+        numCharUserCorrect = [i for i, j in zip(a,b) if i == j]
+        return (numCharOriginalStr - len(numCharUserCorrect))
     
     #opens the shelf to retrieve 'setOne'
     shelfFile = shelve.open('randomTextTypingTestShelf')
@@ -42,12 +59,7 @@ class WPM(object):
     
     #retrieves the random dictionary value in a single string for the user to read as they type
     stringToType = "".join(list(shelfFile['setOne'][randomString()]))
-    
-    #counts the number of words so that it can be calculated later as WPM
-    countWords = 0
-    for a in stringToType.split():
-        countWords += 1
-    logging.info("Number of words in text is: {}".format(countWords))
+    logging.info("Number of words in text is: {}".format(countWords(stringToType)))
     
     #The user is prompted to press the Enter key when ready
     input("Welcome to the typing test!\n\nWhen you're ready to type, please press the 'Enter' key'\n")
@@ -61,9 +73,11 @@ class WPM(object):
     logging.info("User is now typing..")
     
     #Logs the time that the user stopped the typing test
-    input()
+    userInput = input()
     endTime = time.time()
+    logging.info("Time taken was: {} seconds".format(endTime-startTime))
     
     #Prints out the user's WPM
-    print("Congratulations your WPM is: {:.2f}".format(countWords / (endTime - startTime) * 60))
+    print("Congratulations your WPM is: {:.2f}".format(WPMcalculator(countWords(stringToType), (endTime - startTime))))
+    print("You made {} mistakes in your input.".format(mistakes(stringToType, userInput)))
     logging.info("Program terminated")
