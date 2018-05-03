@@ -3,22 +3,14 @@
 from bs4 import BeautifulSoup
 import requests
 
-result = requests.get("https://www.nytimes.com")
+result = requests.get("https://www.youtube.com")
 
-c = result.content
-soup = BeautifulSoup(c, "html.parser")
+soup = BeautifulSoup(result.text, "html.parser")
 
-#h2 tag, 
-d = soup.find_all("h2", {"class" : "story-heading"})
-e = soup.find_all("h1", {"class" : "story-heading"})
+d = soup.find_all(class_="style-scope ytd-grid-video-renderer")
 count = 1
 
 for i in d:
-    title = i.text.strip()
-    print("{}. {}".format(count, title))
-    count += 1
-
-for i in e:
-    title = i.text.strip()
-    print("{}. {}".format(count, title))
+    for j in soup.find_all("a"): 
+        print("{}. {}".format(count, j.text))
     count += 1
