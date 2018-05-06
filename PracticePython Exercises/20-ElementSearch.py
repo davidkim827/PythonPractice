@@ -19,7 +19,7 @@ def bSearchElement(listInput, number):
     while True:
         mid = (L + R) // 2
         if number > len(listInput) or number < listInput[0] or mid < 0:
-            return "False"
+            return False
         if listInput[mid] < number:
             L = mid + 1
         elif listInput[mid] > number:
