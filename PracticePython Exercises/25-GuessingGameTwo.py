@@ -2,10 +2,10 @@
 
 def bSearchGuess(listInput):
     
-    L = 0
-    R = len(listInput)
+    l = 0
+    h = len(listInput)
     
-    mid = (L + R) // 2
+    mid = (l + h) // 2
     print(f"Is it {mid}, y or n?")
     userBool = input()
     if userBool == 'y':
@@ -15,9 +15,9 @@ def bSearchGuess(listInput):
             print(f"Is it higher (h) or lower (l) or am I right (r)?")
             userBool = input()
             if userBool == "l":
-                R = mid - 1
+                h = mid - 1
             elif userBool == "h":
-                L = mid + 1
+                l = mid + 1
             elif userBool == "r":
                 return
             else:
@@ -25,7 +25,7 @@ def bSearchGuess(listInput):
                 print(f"Is it higher (h) or lower (l) or am I right (r)?")
                 userBool = input()
 
-            mid = (L + R) // 2
+            mid = (l + h) // 2
             print(f"{mid}")
 
     return False
