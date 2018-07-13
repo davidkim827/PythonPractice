@@ -12,5 +12,4 @@ def maxNum(val1, val2, val3):
     
     return tmp
 
-print(maxNum(100,-6,-5))
-    
+print(maxNum(5000,5001,-49999))
