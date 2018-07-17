@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-import random
+import random, webbrowser
+from bs4 import BeautifulSoup
+
 
 dictList = []
 
@@ -54,15 +56,22 @@ lettersLeft = list(set(word))   #provides a unique list of letters of the word t
 wordGuessedCorrectly = 0        #a boolean flag to see if word has been guessed correctly or not. 0 = false 1 = True
 lettersGuessedCorrectly = []    #a data structure to hold the letters that have already been guessed correctly to provide a statement that says user has already guessed a specific letter
 
-print("Welcome to Hangman! You have 6 tries to get the word before the man dies! \n")
+print("Welcome to Hangman! You have 6 errors left to get the word before the man dies! \n")
 displayList = "_ "*len(word)
 print(displayList)
 displayList = displayList.strip().split()
 
-numberOfTries = 0
+numberOfTries = 6
 while wordGuessedCorrectly == 0:                    # loops until the user gets it right      
     
-    letterGuess = input("Try #{}. \nGuess your letter: \n".format(numberOfTries+1))
+    letterGuess = input("You have {} errors left. \nGuess your letter: \n".format(numberOfTries))
+    while len(letterGuess) < 1 or len(letterGuess) > 1:
+        if len(letterGuess) < 1:
+            print("\nYou didn't type in anything. Please type in something.\n")
+        else:
+            print("\nPlease type only one character.\n")
+        letterGuess = input("You have {} errors left. \nGuess your letter: \n".format(numberOfTries))
+    
     letterGuess = letterGuess.capitalize()          # makes sure all letters input are capitalized to handle any mismatches of capitalization issues
     letterFound = False                             # flag to make sure if a letter is found to be correct, it will go through checking completion of word and updating the display
 
@@ -75,13 +84,11 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
             continue
  
     if letterFound == True:                         # checking to see if the word is complete and display what has been changed
-        numberOfTries += 1
         displayFxn(letterGuess)
         if checkComplete(letterGuess) == True:      # checks to see if the word has been guessed in its entirety which ends the entire while loop
             wordGuessedCorrectly = 1
         else:
-            if numberOfTries > 5:
-                break        
+            continue        
         
     else:                                           # determines which response to give based on a repeat letter or if the letter doesn't exist in the word     
         response = 0 
@@ -94,8 +101,8 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
         
         if response == 0:                           # Because there hasn't been a repeat, should mean that the letter did not exist in the word and prints out an incorrect statement
             print("Incorrect!\n")
-            numberOfTries += 1
-            if numberOfTries > 5:
+            numberOfTries -= 1
+            if numberOfTries == 0:
                 break
 
 if wordGuessedCorrectly == 1:
@@ -103,6 +110,10 @@ if wordGuessedCorrectly == 1:
 else:
     print("Sorry the man has been hanged.\n")
     print("The word was {}".format(word))
-
+    bringUpDictionary = input("Would you like to know the definition on dictionary.com? Y or N\n").capitalize()
+    if bringUpDictionary == 'Y':        
+        url = "http://www.dictionary.com/"
+        webbrowser.open_new_tab(url+"/browse/{}".format(word.lower()))
+    print("\nGame is now complete.")
     
 
