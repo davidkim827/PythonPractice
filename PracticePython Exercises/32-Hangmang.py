@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 
 dictList = []
+lettersNotUsed = [chr(letter) for letter in range(65,91)]
 
 def createDict(file):
     try:    
@@ -56,14 +57,15 @@ lettersLeft = list(set(word))   #provides a unique list of letters of the word t
 wordGuessedCorrectly = 0        #a boolean flag to see if word has been guessed correctly or not. 0 = false 1 = True
 lettersGuessed = []             #a data structure to hold the letters that have already been guessed to provide a statement that says user has already guessed a specific letter
 
-print("Welcome to Hangman! You have 6 errors left to get the word before the man dies! \n")
+print("Welcome to Hangman! You have 6 errors left to get the word before the man dies!")
 displayList = "_ "*len(word)
-print(displayList)
+print("\n{}".format(displayList))
 displayList = displayList.strip().split()
 
 numberOfTries = 6
 while wordGuessedCorrectly == 0:                    # loops until the user gets it right      
     
+    print("You have NOT used these letters so far: {}".format(" ".join(lettersNotUsed)))
     letterGuess = input("You have {} errors left. \nGuess your letter: \n".format(numberOfTries))
     while len(letterGuess) < 1 or len(letterGuess) > 1:
         if len(letterGuess) < 1:
@@ -79,6 +81,7 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
         if letter == letterGuess:
             letterFound = True
             lettersGuessed.append(letterGuess)
+            lettersNotUsed.remove(letterGuess)
             break
         else:
             continue
@@ -91,7 +94,9 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
             continue        
         
     else:                                           # determines which response to give based on a repeat letter or if the letter doesn't exist in the word     
+        displayFxn(letterGuess)
         response = 0 
+        
         for element in lettersGuessed:     
             if element == letterGuess:
                 print("You already guessed that. Try again!\n")
@@ -103,6 +108,7 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
             print("Incorrect!\n")
             numberOfTries -= 1
             lettersGuessed.append(letterGuess)
+            lettersNotUsed.remove(letterGuess)
             if numberOfTries == 0:
                 break
 
