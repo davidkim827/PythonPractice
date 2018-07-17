@@ -26,7 +26,7 @@ def bSearchGuess(listInput):
                 userBool = input()
 
             mid = (l + h) // 2
-            print(f"{mid}")
+            print(f"Is it {mid}?")
 
     return False
 
