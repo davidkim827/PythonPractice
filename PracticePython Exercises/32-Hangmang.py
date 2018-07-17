@@ -51,10 +51,10 @@ def checkComplete(letter):
         
 file = 'sowpods.txt'
 createDict(file)
-word = pickRandomWord()              #word to be used for guessing
+word = pickRandomWord()         #word to be used for guessing
 lettersLeft = list(set(word))   #provides a unique list of letters of the word to be guessed
 wordGuessedCorrectly = 0        #a boolean flag to see if word has been guessed correctly or not. 0 = false 1 = True
-lettersGuessedCorrectly = []    #a data structure to hold the letters that have already been guessed correctly to provide a statement that says user has already guessed a specific letter
+lettersGuessed = []             #a data structure to hold the letters that have already been guessed to provide a statement that says user has already guessed a specific letter
 
 print("Welcome to Hangman! You have 6 errors left to get the word before the man dies! \n")
 displayList = "_ "*len(word)
@@ -78,7 +78,7 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
     for letter in lettersLeft:                      # iterates through the letters left list to see if a letter has been matched and appends the letter to the letters guessed correctly list to handle any repeat letters
         if letter == letterGuess:
             letterFound = True
-            lettersGuessedCorrectly.append(letterGuess)
+            lettersGuessed.append(letterGuess)
             break
         else:
             continue
@@ -92,7 +92,7 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
         
     else:                                           # determines which response to give based on a repeat letter or if the letter doesn't exist in the word     
         response = 0 
-        for element in lettersGuessedCorrectly:     
+        for element in lettersGuessed:     
             if element == letterGuess:
                 print("You already guessed that. Try again!\n")
                 response = 1                        # flips the flag to skip the wrong letter portion of the error checking
@@ -102,6 +102,7 @@ while wordGuessedCorrectly == 0:                    # loops until the user gets 
         if response == 0:                           # Because there hasn't been a repeat, should mean that the letter did not exist in the word and prints out an incorrect statement
             print("Incorrect!\n")
             numberOfTries -= 1
+            lettersGuessed.append(letterGuess)
             if numberOfTries == 0:
                 break
 
@@ -110,10 +111,9 @@ if wordGuessedCorrectly == 1:
 else:
     print("Sorry the man has been hanged.\n")
     print("The word was {}".format(word))
-    bringUpDictionary = input("Would you like to know the definition on dictionary.com? Y or N\n").capitalize()
-    if bringUpDictionary == 'Y':        
-        url = "http://www.dictionary.com/"
-        webbrowser.open_new_tab(url+"/browse/{}".format(word.lower()))
-    print("\nGame is now complete.")
-    
+bringUpDictionary = input("Would you like to know the definition on dictionary.com? Y or N\n").capitalize()
+if bringUpDictionary == 'Y':        
+    url = "http://www.dictionary.com/"
+    webbrowser.open_new_tab(url+"/browse/{}".format(word.lower()))
+print("\nGame is now complete.")
 
