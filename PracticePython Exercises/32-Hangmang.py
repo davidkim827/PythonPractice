@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 import random, webbrowser
-from bs4 import BeautifulSoup
-
 
 dictList = []
-lettersNotUsed = [chr(letter) for letter in range(65,91)]
+lettersNotUsed = [chr(letter) for letter in range(65,91)]    # this list is used to print out a list of letters that haven't been used for ease of use for the user
 
 def createDict(file):
     try:    
@@ -117,7 +115,8 @@ if wordGuessedCorrectly == 1:
 else:
     print("Sorry the man has been hanged.\n")
     print("The word was {}".format(word))
-bringUpDictionary = input("Would you like to know the definition on dictionary.com? Y or N\n").capitalize()
+
+bringUpDictionary = input("Would you like to know the definition on dictionary.com? Y or N\n").capitalize()      # asks user if they want to know the definition of the word from dictionary.com
 if bringUpDictionary == 'Y':        
     url = "http://www.dictionary.com/"
     webbrowser.open_new_tab(url+"/browse/{}".format(word.lower()))
